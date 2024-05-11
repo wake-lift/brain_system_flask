@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Добавить вопрос в Базу
+{% endblock title %}
+
+{% block content %}
+
+{% if not form_saved %}
+  <div class="col d-flex justify-content-center">
+    <div class="container" style="width: 40rem;">
+      <h3 class="adaptive-fs-title" style="text-align: center;">Добавить вопрос в Базу</h3><br>
+      <form method="POST" class="form adaptive-fs">
+        {{ form.csrf_token }}
+        {{ form.package(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.package.label.text) }}<br>
+        {{ form.tour(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.tour.label.text) }}<br>
+        {{ form.number(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.number.label.text) }}<br>
+        {{ form.question_type(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.question_type.label.text) }}<br>
+        {{ form.question(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.question.label.text, rows="10") }}<br>
+        {% if form.question.errors %}{% for error in form.question.errors %}<span style="color: red" class="adaptive-fs-small">{{ error }}</span>{% endfor %}{% endif %}<br>
+        {{ form.answer(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.answer.label.text, rows="10") }}<br>
+        {% if form.answer.errors %}{% for error in form.answer.errors %}<span style="color: red" class="adaptive-fs-small">{{ error }}</span>{% endfor %}{% endif %}<br>
+        {{ form.pass_criteria(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.pass_criteria.label.text) }}<br>
+        {{ form.comments(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.comments.label.text) }}<br>
+        {{ form.authors(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.authors.label.text) }}<br>
+        {{ form.sources(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.sources.label.text) }}<br>
+        {{ captcha_html(captcha) | safe }}<br>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <span style="color: red" class="adaptive-fs-small">{{ message }}</span>
+            {% endfor %}{% endif %}
+        {% endwith %}
+        <br><br>
+        {{ form.submit(class="btn btn-outline-secondary adaptive-fs-big") }}
+      </form>
+    </div>
+  </div>
+
+  {% else %}
+  <div class="col d-flex justify-content-center">
+    <div class="container text-center" style="width: 40rem;">
+      <p class="text-center fs-3">Спасибо! Ваш вопрос будет добавлен в Базу после модерации.</p><br>
+      <form action="{{ url_for('add_question') }}">
+        <button type="submit" class="btn btn-outline-secondary btn-lg">Добавить следующий вопрос</button>
+      </form>
+      <br>
+      <form action="{{ url_for('index_view') }}">
+        <button type="submit" class="btn btn-outline-secondary btn-lg">На главную</button>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+
+{% endblock content %}

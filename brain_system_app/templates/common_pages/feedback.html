@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Обратная связь
+{% endblock %}
+
+
+{% block content %}
+{% if not form_saved %}
+<div class="col d-flex justify-content-center">
+  <div class="container" style="width: 40rem;">
+    <h3 class="adaptive-fs-title" style="text-align: center;">Форма обратной связи</h3><br>
+    <form method="POST" novalidate class="form adaptive-fs">
+      {{ form.csrf_token }}
+      {{ form.name(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.name.label.text, rows="1", cols="1") }}
+      <p>
+        {% if form.name.errors %}
+          {% for error in form.name.errors %}<span style="color: red" class="adaptive-fs-small">{{ error }}</span>{% endfor %}
+        {% endif %}
+      </p>
+      {{ form.email(class="form-control py-3 mb-3 adaptive-fs", placeholder=form.email.label.text, rows="1", cols="10") }}
+      <p>
+        {% if form.email.errors %}
+          {% for error in form.email.errors %}<span style="color: red" class="adaptive-fs-small">{{ error }}</span>{% endfor %}
+        {% endif %}
+      </p>
+      {{ form.feedback_text(class="form-control form-control-lg py-3 mb-3 adaptive-fs", placeholder=form.feedback_text.label.text, rows="10", cols="1")}}
+      <p class="text-danger">
+        {% if form.feedback_text.errors %}
+          {% for error in form.feedback_text.errors %}<span style="color: red" class="adaptive-fs-small">{{ error }}</span>{% endfor %}
+        {% endif %}
+      </p>
+      {{ captcha_html(captcha) | safe }}
+      <br>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <span style="color: red" class="adaptive-fs-small">{{ message }}</span>
+          {% endfor %}{% endif %}
+      {% endwith %}
+      <br><br>
+      {{ form.submit(class="btn btn-outline-secondary adaptive-fs-big") }}
+    </form>
+  </div>
+</div>
+{% else %}
+<div class="col d-flex justify-content-center">
+  <div class="container text-center" style="width: 40rem;">
+     <p class="text-center fs-3">Спасибо за обратную связь!</p><br>
+    <form action="{{ url_for('index_view') }}">
+      <button type="submit" class="btn btn-outline-secondary btn-lg">На главную</button>
+    </form>  
+  </div>
+</div>
+{% endif %}
+{% endblock %}
