@@ -52,7 +52,12 @@
           {% for obj in questions %}
             <div class="container border border-3">
               <div class="card-body">
-                <p class="card-text fw-semibold">{% if obj.question_type != "Я" %} {{ obj.question }} {% else %} {{ obj.question }} {% endif %}</p>
+                <p class="card-text fw-semibold">
+                  {% if obj.question_type.name != "Я" %}
+                    {{ obj.question }}
+                  {% else %}
+                    {% for line in obj.question.split('\n') %}{{ line }} <br>{% endfor %}
+                  {% endif %}</p>
               </div>
               <p class="d-inline-flex gap-1">
                 <div class="text-center">
@@ -63,7 +68,12 @@
               </p>
               <div class="collapse" id="collapse{{ obj.id }}">
                 <br>
-                <p class="card-text fw-bold">{% if obj.question_type != "Я" %} {{ obj.answer }} {% else %} {{ obj.answer }} {% endif %}</p>
+                <p class="card-text fw-bold">
+                  {% if obj.question_type.name != "Я" %}
+                    {{ obj.answer }}
+                  {% else %}
+                    {% for line in obj.answer.split('\n') %}{{ line }} <br>{% endfor %}
+                  {% endif %}</p>
                 <p class="card-text fst-italic">
                   {% if obj.comments != "None" %}<span class="text-decoration-underline">Комментарий:</span> {{ obj.comments }}<br>{% endif %}
                   {% if obj.pass_criteria != "None" %}<span class="text-decoration-underline">Зачёт:</span> {{ obj.pass_criteria }}<br>{% endif %}
