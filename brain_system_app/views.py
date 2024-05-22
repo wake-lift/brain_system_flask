@@ -1,6 +1,6 @@
 import random
 
-from flask import abort, flash, render_template, request, send_file, session
+from flask import abort, flash, render_template, request, send_file
 import pandas as pd
 from sqlalchemy import and_
 
@@ -176,6 +176,6 @@ def tg_bot():
     return render_template('questions/tg_bot.html')
 
 
-@app.route('/api/v1/info/')
-def api_info():
-    return 'api_info'
+# @app.route('/api/v1/info/')
+# def api_info():
+#     return 'api_info'

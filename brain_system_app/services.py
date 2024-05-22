@@ -21,9 +21,15 @@ def get_max_question_sets():
         or (datetime.datetime.now() - LAST_REFRESH > REFRESH_INTERVAL)
     ):
         with session_factory() as sf:
-            MAX_SET_WWW = sf.query(Question).filter(Question.question_type == 'Ч').count()
-            MAX_SET_BRAIN = sf.query(Question).filter(Question.question_type == 'Б').count()
-            MAX_SET_JEOPARDY = sf.query(Question).filter(Question.question_type == 'Я').count()
+            MAX_SET_WWW = sf.query(Question).filter(
+                Question.question_type == 'Ч'
+            ).count()
+            MAX_SET_BRAIN = sf.query(Question).filter(
+                Question.question_type == 'Б'
+            ).count()
+            MAX_SET_JEOPARDY = sf.query(Question).filter(
+                Question.question_type == 'Я'
+            ).count()
         LAST_REFRESH = datetime.datetime.now()
     return {
         'Ч': MAX_SET_WWW,

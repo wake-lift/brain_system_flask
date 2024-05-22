@@ -40,7 +40,9 @@ class BoughtInProduct(Base):
         ForeignKey('boughtinproductasapartof.id', ondelete="SET NULL"),
         nullable=True
     )
-    a_part_of = relationship('BoughtInProductAsAPartOf', backref='product', lazy='joined')
+    a_part_of = relationship(
+        'BoughtInProductAsAPartOf', backref='product', lazy='joined'
+    )
     quantity = Column(SmallInteger, nullable=True)
     product_type = Column(String(128),  nullable=True)
     comment = Column(String(512),  nullable=True)
